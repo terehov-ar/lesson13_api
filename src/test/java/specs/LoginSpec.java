@@ -40,4 +40,18 @@ public class LoginSpec {
             .log(STATUS)
             .log(BODY)
             .build();
+
+    public static RequestSpecification getUserRequestSpec = with()
+            .filter(withCustomTemplates())
+            .log().uri()
+            .log().headers()
+            .header("x-api-key", "reqres_957ed4d983084b55a7f13a8e12a3c6ff")
+            .basePath("/api/users/2");
+
+    public static ResponseSpecification getUserResponseSpec = new ResponseSpecBuilder()
+            .expectStatusCode(200)
+            .log(STATUS)
+            .log(BODY)
+            .build();
+
 }

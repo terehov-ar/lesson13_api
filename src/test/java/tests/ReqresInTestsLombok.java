@@ -1,5 +1,6 @@
 package tests;
 
+import models.GetUserResponseModel;
 import models.LoginBodyLombokModel;
 import models.LoginResponseLombokModel;
 import models.MissingPasswordModel;
@@ -16,19 +17,24 @@ public class ReqresInTestsLombok extends TestBase {
 
     @Test
     void successGetSingleUserTest() {
-        given()
-                .header("x-api-key", "reqres_957ed4d983084b55a7f13a8e12a3c6ff")
-                .log().uri()
-                .when()
-                .get("api/users/2")
-                .then()
-                .log().status()
-                .log().body()
-                .statusCode(200)
-                .body("data.id", is(2))
-                .body("data.email", is("janet.weaver@reqres.in"))
-                .body("data.first_name", is("Janet"))
-                .body("data.last_name", is("Weaver"));
+
+        GetUserResponseModel response = step("Make request", ()->
+            given(getUserRequestSpec)
+
+            .when()
+                .get()
+
+            .then()
+                .spec(getUserResponseSpec)
+                .extract()
+                .jsonPath()
+                .getObject("data", GetUserResponseModel.class));
+
+        step("Check response", ()->
+                assertEquals(2, response.getId()));
+                assertEquals("janet.weaver@reqres.in", response.getEmail());
+                assertEquals("Janet", response.getFirst_name());
+                assertEquals("Weaver", response.getLast_name());
     }
 
     @Test
