@@ -9,4 +9,5 @@ public class TestBase {
     static void setupEnvironment() {
         RestAssured.baseURI = "https://reqres.in";
     }
+
 }
