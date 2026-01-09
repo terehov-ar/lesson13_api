@@ -1,9 +1,6 @@
 package tests;
 
-import models.GetUserResponseModel;
-import models.LoginBodyLombokModel;
-import models.LoginResponseLombokModel;
-import models.MissingPasswordModel;
+import models.*;
 import org.junit.jupiter.api.Test;
 
 import static io.qameta.allure.Allure.step;
@@ -16,7 +13,7 @@ import static specs.LoginSpec.*;
 public class ReqresInTestsLombok extends TestBase {
 
     @Test
-    void successGetSingleUserTest() {
+    void successfulGetSingleUserTest() {
 
         GetUserResponseModel response = step("Make request", ()->
             given(getUserRequestSpec)
@@ -30,56 +27,66 @@ public class ReqresInTestsLombok extends TestBase {
                 .jsonPath()
                 .getObject("data", GetUserResponseModel.class));
 
-        step("Check response", ()->
-                assertEquals(2, response.getId()));
+        step("Check response", ()-> {
+                assertEquals(2, response.getId());
                 assertEquals("janet.weaver@reqres.in", response.getEmail());
                 assertEquals("Janet", response.getFirst_name());
                 assertEquals("Weaver", response.getLast_name());
+        });
     }
 
     @Test
-    void successCreateUserTest() {
-        String updateData = "{\"name\": \"Jenkins\", \"job\": \"CI/CD\"}";
-        given()
-                .header("x-api-key", "reqres_957ed4d983084b55a7f13a8e12a3c6ff")
-                .body(updateData)
-                .contentType(JSON)
-                .log().uri()
-                .when()
-                .post("api/users")
-                .then()
-                .log().status()
-                .log().body()
-                .statusCode(201)
-                .body("name", is("Jenkins"))
-                .body("job", is("CI/CD"));
+    void successfulCreateUserTest() {
+
+        CreateUserModel userData = new CreateUserModel();
+        userData.setJob("Developer");
+        userData.setName("Docker");
+
+        CreateUserModel response = step("Make request", ()->
+            given(createUserRequestSpec)
+                .body(userData)
+
+            .when()
+                .post()
+
+            .then()
+                .spec(createUserResponseSpec)
+                .extract().as(CreateUserModel.class));
+
+        step("Check response", () -> {
+            assertEquals("Docker", response.getName());
+            assertEquals("Developer", response.getJob());
+        });
     }
 
     @Test
-    void successDeleteUserTest() {
-        given()
-                .header("x-api-key", "reqres_957ed4d983084b55a7f13a8e12a3c6ff")
-                .log().uri()
-                .when()
-                .delete("api/users/2")
-                .then()
-                .log().status()
-                .log().body()
-                .statusCode(204);
+    void successfulDeleteUserTest() {
+
+        step("Make request and check statusCode", ()->
+        given(deleteUserRequestSpec)
+
+        .when()
+            .delete()
+
+        .then()
+            .spec(deleteUserResponseSpec));
     }
 
     @Test
     void unsuccessfulDeleteUserWithWrongApiKeyTest() {
-        given()
-                .log().uri()
-                .header("x-api-key", "34234234")
-                .when()
-                .delete("api/users/1")
-                .then()
-                .log().status()
-                .log().body()
-                .statusCode(403)
-                .body("error", is("invalid_api_key"));
+
+        DeleteUserResponseModel response = step("Make request", ()->
+        given(deleteUserRequestSpecWithWrongApiKey)
+
+        .when()
+            .delete()
+
+        .then()
+            .spec(deleteUserResponseSpecWithoutApiKey)
+            .extract().as(DeleteUserResponseModel.class));
+
+        step("Check response", ()->
+                assertEquals("invalid_api_key", response.getError()));
     }
 
     @Test

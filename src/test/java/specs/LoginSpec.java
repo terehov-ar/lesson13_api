@@ -54,4 +54,46 @@ public class LoginSpec {
             .log(BODY)
             .build();
 
+    public static RequestSpecification createUserRequestSpec = with()
+            .filter(withCustomTemplates())
+            .log().uri()
+            .log().body()
+            .log().headers()
+            .header("x-api-key", "reqres_957ed4d983084b55a7f13a8e12a3c6ff")
+            .contentType(JSON)
+            .basePath("/api/users");
+
+    public static ResponseSpecification createUserResponseSpec = new ResponseSpecBuilder()
+            .expectStatusCode(201)
+            .log(STATUS)
+            .log(BODY)
+            .build();
+
+    public static RequestSpecification deleteUserRequestSpec = with()
+            .filter(withCustomTemplates())
+            .log().uri()
+            .log().headers()
+            .header("x-api-key", "reqres_957ed4d983084b55a7f13a8e12a3c6ff")
+            .contentType(JSON)
+            .basePath("/api/users/2");
+
+    public static ResponseSpecification deleteUserResponseSpec = new ResponseSpecBuilder()
+            .expectStatusCode(204)
+            .log(STATUS)
+            .log(BODY)
+            .build();
+
+    public static RequestSpecification deleteUserRequestSpecWithWrongApiKey = with()
+            .filter(withCustomTemplates())
+            .log().uri()
+            .log().headers()
+            .header("x-api-key", "46346346")
+            .contentType(JSON)
+            .basePath("/api/users/2");
+
+    public static ResponseSpecification deleteUserResponseSpecWithoutApiKey = new ResponseSpecBuilder()
+            .expectStatusCode(403)
+            .log(STATUS)
+            .log(BODY)
+            .build();
 }
