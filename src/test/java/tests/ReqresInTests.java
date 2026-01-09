@@ -1,4 +1,4 @@
-package api;
+package tests;
 
 import org.junit.jupiter.api.Test;
 
@@ -6,12 +6,13 @@ import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static org.hamcrest.Matchers.is;
 
-public class ReqresInTests extends TestBase{
+public class ReqresInTests extends TestBase {
 
     @Test
     void successGetSingleUserTest() {
         given()
             .log().uri()
+            .header("x-api-key", "reqres-free-v1")
         .when()
             .get("/users/2")
         .then()
