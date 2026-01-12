@@ -36,11 +36,11 @@ public class ReqresInTestsLombok extends TestBase {
     @Test
     void successfulCreateUserTest() {
 
-        CreateUserModel userData = new CreateUserModel();
+        CreateUserRequestModel userData = new CreateUserRequestModel();
         userData.setJob("Developer");
         userData.setName("Docker");
 
-        CreateUserModel response = step("Make request", ()->
+        CreateUserResponseModel response = step("Make request", ()->
             given(createUserRequestSpec)
                 .body(userData)
 
@@ -49,7 +49,7 @@ public class ReqresInTestsLombok extends TestBase {
 
             .then()
                 .spec(createUserResponseSpec)
-                .extract().as(CreateUserModel.class));
+                .extract().as(CreateUserResponseModel.class));
 
         step("Check response", () -> {
             assertEquals("Docker", response.getName());
