@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static specs.LoginSpec.*;
+import static specs.Specification.*;
 
 public class ReqresInTestsLombok extends TestBase {
 

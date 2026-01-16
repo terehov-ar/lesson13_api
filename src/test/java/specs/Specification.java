@@ -10,13 +10,16 @@ import static io.restassured.filter.log.LogDetail.BODY;
 import static io.restassured.filter.log.LogDetail.STATUS;
 import static io.restassured.http.ContentType.JSON;
 
-public class LoginSpec {
+public class Specification {
+
+    private static final String xApiKey = "reqres_957ed4d983084b55a7f13a8e12a3c6ff";
+
     public static RequestSpecification loginRequestSpec = with()
             .filter(withCustomTemplates())
             .log().uri()
             .log().body()
             .log().headers()
-            .header("x-api-key", "reqres_957ed4d983084b55a7f13a8e12a3c6ff")
+            .header("x-api-key", xApiKey)
             .contentType(JSON)
             .basePath("/api/login");
 
@@ -25,7 +28,7 @@ public class LoginSpec {
             .log().uri()
             .log().body()
             .log().headers()
-            .header("x-api-key", "reqres_957ed4d983084b55a7f13a8e12a3c6ff")
+            .header("x-api-key", xApiKey)
             .contentType(JSON)
             .basePath("/api/register");
 
@@ -45,7 +48,7 @@ public class LoginSpec {
             .filter(withCustomTemplates())
             .log().uri()
             .log().headers()
-            .header("x-api-key", "reqres_957ed4d983084b55a7f13a8e12a3c6ff")
+            .header("x-api-key", xApiKey)
             .basePath("/api/users/2");
 
     public static ResponseSpecification getUserResponseSpec = new ResponseSpecBuilder()
@@ -59,7 +62,7 @@ public class LoginSpec {
             .log().uri()
             .log().body()
             .log().headers()
-            .header("x-api-key", "reqres_957ed4d983084b55a7f13a8e12a3c6ff")
+            .header("x-api-key", xApiKey)
             .contentType(JSON)
             .basePath("/api/users");
 
@@ -73,7 +76,7 @@ public class LoginSpec {
             .filter(withCustomTemplates())
             .log().uri()
             .log().headers()
-            .header("x-api-key", "reqres_957ed4d983084b55a7f13a8e12a3c6ff")
+            .header("x-api-key", xApiKey)
             .contentType(JSON)
             .basePath("/api/users/2");
 
