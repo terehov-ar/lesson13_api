@@ -1,6 +1,7 @@
 package tests;
 
 import models.*;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static io.qameta.allure.Allure.step;
@@ -9,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static specs.ResponseSpecs.*;
 import static specs.RequestSpecs.*;
 
+@Tag("api-tests")
 public class ReqresInTestsLombok extends TestBase {
 
     @Test
