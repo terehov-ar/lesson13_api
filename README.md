@@ -1,4 +1,4 @@
-# Проект автоматизации [проекта ReqRes](https://reqres.in/)
+# Проект автоматизации [ReqRes](https://reqres.in/)
 
 > A real backend you can call directly.
 Auth, data, and logs - ready for tests, demos, and frontend-led apps. Use it from Postman, Playwright, or fetch()..
@@ -34,7 +34,7 @@ ____
 ## <img alt="Jenkins" height="25" src="images/logo/Jenkins.svg" width="25"/></a><a name="Build"></a>Сборка в [Jenkins](https://jenkins.autotests.cloud/job/C38-ar_terekhov-lesson13/)</a>
 ____
 <p align="center">  
-<a href="https://jenkins.autotests.cloud/job/C38-ar_terekhov-bft_company/"><img src="images/screen/jenkinsProject.png" alt="Jenkins" width="950"/></a>  
+<a href="https://jenkins.autotests.cloud/job/C38-ar_terekhov-lesson13/"><img src="images/screen/jenkinsProject.png" alt="Jenkins" width="950"/></a>  
 </p>
 
 
