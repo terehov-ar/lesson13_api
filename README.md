@@ -8,6 +8,8 @@ ____
 
 * <a href="#tools">Используемые технологии</a>
 
+* <a href="#test-plan">Тест-план</a>
+
 * <a href="#jenkins">Сборка Jenkins</a>
 
 * <a href="#console">Запуск проекта</a>
@@ -24,11 +26,21 @@ ____
 <a href="https://www.java.com/"><img src="images/logo/Java.svg" width="50" height="50"  alt="Java"/></a>  
 <a href="https://junit.org/junit5/"><img src="images/logo/JUnit5.svg" width="50" height="50"  alt="JUnit 5"/></a>  
 <a href="https://gradle.org/"><img src="images/logo/Gradle.svg" width="50" height="50"  alt="Gradle"/></a> 
-<a href="https://rest-assured.io/"><img src="images/logo/Rest.png" width="50" height="50"  alt="Rest Assured"/></a>  
+<a href="https://rest-assured.io/"><img src="images/logo/Rest.png" width="45" height="45"  alt="Rest Assured"/></a>  
 <a href="https://allurereport.org/"><img src="images/logo/Allure.svg" width="50" height="50"  alt="Allure"/></a> 
 <a href="https://www.jenkins.io/"><img src="images/logo/Jenkins.svg" width="50" height="50"  alt="Jenkins"/></a>
 
 </p>
+
+____
+<a id="test-plan"></a>
+
+***Тест-план:***
+- *Успешное получение информации по пользователю*
+- *Успешное обновление информации по пользователю*
+- *Успешное создание пользователя*
+- *Успешное удаление пользователя*
+- *Удаление пользователя с ошибкой без использования Api Key*
 
 ____
 <a id="jenkins"></a>
@@ -40,15 +52,15 @@ ____
 
 ___
 <a id="console"></a>
-## Команды для запуска через терминал  
+
+## Команда для запуска через терминал  
 ***Локальный запуск:***
 ```bash  
-gradle clean api-tests
+gradle clean api-tests  
 ```
 ___
 <a id="allure"></a>
-## <img alt="Allure" height="25" src="images/logo/Allure.svg" width="25"/></a> <a name="Allure"></a>Allure [report](https://jenkins.autotests.cloud/job/C38-ar_terekhov-bft_company/6/allure/)</a>
-___
+## <img alt="Allure" height="25" src="images/logo/Allure.svg" width="25"/></a> <a name="Allure"></a>Allure [report](https://jenkins.autotests.cloud/job/C38-ar_terekhov-lesson13/allure/)</a>
 
 ### *Main report page*
 
