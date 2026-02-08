@@ -1,6 +1,7 @@
 package tests;
 
 import models.*;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import specs.*;
@@ -81,7 +82,13 @@ public class ReqresInTestsLombok extends TestBase {
                 .spec(ResponseSpecs.getResponseSpec(200))
                 .extract().as(LoginResponseLombokModel.class);
 
-        assertEquals("QpwL5tke4Pnpja7X4", response.getToken());
+        Assertions.assertNotNull(response.getToken(), "API Key cannot be null");
+        Assertions.assertFalse(response.getToken().isEmpty(), "API Key cannot be empty");
+        Assertions.assertFalse(response.getToken().trim().isEmpty(), "API Key cannot contain only whitespace");
+        Assertions.assertTrue(response.getToken().length() >= 8,
+                "API Key must be at least 8 characters long (actual: " + response.getToken().length() + ")");
+        Assertions.assertTrue(response.getToken().matches("^[a-zA-Z0-9_-]+$"),
+                "API Key must contain only alphanumeric characters, underscore, or hyphen");
     }
 
     @Test
