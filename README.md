@@ -1,7 +1,6 @@
 # Проект автоматизации [ReqRes](https://reqres.in/)
 
-> A real backend you can call directly.
-Auth, data, and logs - ready for tests, demos, and frontend-led apps. Use it from Postman, Playwright, or fetch()..
+> Реальный бэкэнд, который можно вызывать напрямую. Аутентификация, данные и логи — готов для тестов, демонстраций и приложений, управляемых фронтендом. Используйте его из Postman, Playwright или fetch()..
 
 ## **Содержание:**
 ____
