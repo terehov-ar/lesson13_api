@@ -3,91 +3,68 @@ package tests;
 import models.*;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import specs.*;
 
-import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static specs.ResponseSpecs.*;
-import static specs.RequestSpecs.*;
 
 @Tag("api-tests")
 public class ReqresInTestsLombok extends TestBase {
 
     @Test
     void successfulGetSingleUserTest() {
-
-        GetUserResponseModel response = step("Make request", ()->
-            given(getUserRequestSpec)
-
-            .when()
-                .get()
-
-            .then()
-                .spec(getUserResponseSpec)
+        GetUserResponseModel response = given(RequestSpecs.reqresRequestSpec)
+                .when()
+                .get("/users/2")
+                .then()
+                .spec(ResponseSpecs.getResponseSpec(200))
                 .extract()
                 .jsonPath()
-                .getObject("data", GetUserResponseModel.class));
+                .getObject("data", GetUserResponseModel.class);
 
-        step("Check response", ()-> {
-                assertEquals(2, response.getId());
-                assertEquals("janet.weaver@reqres.in", response.getEmail());
-                assertEquals("Janet", response.getFirst_name());
-                assertEquals("Weaver", response.getLast_name());
-        });
+        assertEquals(2, response.getId());
+        assertEquals("janet.weaver@reqres.in", response.getEmail());
+        assertEquals("Janet", response.getFirst_name());
+        assertEquals("Weaver", response.getLast_name());
     }
 
     @Test
     void successfulCreateUserTest() {
-
         CreateUserRequestModel userData = new CreateUserRequestModel();
         userData.setJob("Developer");
         userData.setName("Docker");
 
-        CreateUserResponseModel response = step("Make request", ()->
-            given(createUserRequestSpec)
+        CreateUserResponseModel response = given(RequestSpecs.reqresRequestSpec)
                 .body(userData)
+                .when()
+                .post("/users")
+                .then()
+                .spec(ResponseSpecs.getResponseSpec(201))
+                .extract().as(CreateUserResponseModel.class);
 
-            .when()
-                .post()
-
-            .then()
-                .spec(createUserResponseSpec)
-                .extract().as(CreateUserResponseModel.class));
-
-        step("Check response", () -> {
-            assertEquals("Docker", response.getName());
-            assertEquals("Developer", response.getJob());
-        });
+        assertEquals("Docker", response.getName());
+        assertEquals("Developer", response.getJob());
     }
 
     @Test
     void successfulDeleteUserTest() {
-
-        step("Make request and check statusCode", ()->
-        given(deleteUserRequestSpec)
-
-        .when()
-            .delete()
-
-        .then()
-            .spec(deleteUserResponseSpec));
+        given(RequestSpecs.reqresRequestSpec)
+                .when()
+                .delete("/users/2")
+                .then()
+                .spec(ResponseSpecs.getResponseSpec(204));
     }
 
     @Test
     void unsuccessfulDeleteUserWithWrongApiKeyTest() {
+        DeleteUserResponseModel response = given(RequestSpecs.reqresRequestSpecWithWrongApiKey)
+                .when()
+                .delete("/users/2")
+                .then()
+                .spec(ResponseSpecs.getResponseSpec(403))
+                .extract().as(DeleteUserResponseModel.class);
 
-        DeleteUserResponseModel response = step("Make request", ()->
-            given(deleteUserRequestSpecWithWrongApiKey)
-
-            .when()
-                .delete()
-
-            .then()
-                .spec(deleteUserResponseSpecWithoutApiKey)
-                .extract().as(DeleteUserResponseModel.class));
-
-            step("Check response", ()->
-                    assertEquals("invalid_api_key", response.getError()));
+        assertEquals("invalid_api_key", response.getError());
     }
 
     @Test
@@ -96,19 +73,15 @@ public class ReqresInTestsLombok extends TestBase {
         authData.setEmail("eve.holt@reqres.in");
         authData.setPassword("cityslicka");
 
-        LoginResponseLombokModel response = step("Make request", ()->
-            given(loginRequestSpec)
+        LoginResponseLombokModel response = given(RequestSpecs.reqresRequestSpec)
                 .body(authData)
+                .when()
+                .post("/login")
+                .then()
+                .spec(ResponseSpecs.getResponseSpec(200))
+                .extract().as(LoginResponseLombokModel.class);
 
-            .when()
-                .post()
-
-            .then()
-                .spec(loginResponseSpec)
-                .extract().as(LoginResponseLombokModel.class));
-
-        step("Check response", ()->
-                assertEquals("QpwL5tke4Pnpja7X4", response.getToken()));
+        assertEquals("QpwL5tke4Pnpja7X4", response.getToken());
     }
 
     @Test
@@ -116,19 +89,15 @@ public class ReqresInTestsLombok extends TestBase {
         LoginBodyLombokModel authData = new LoginBodyLombokModel();
         authData.setEmail("eve.holt@reqres.in");
 
-        MissingPasswordModel response = step("Make request", ()->
-            given(loginRequestSpec)
+        MissingPasswordModel response = given(RequestSpecs.reqresRequestSpec)
                 .body(authData)
+                .when()
+                .post("/login")
+                .then()
+                .spec(ResponseSpecs.getResponseSpec(400))
+                .extract().as(MissingPasswordModel.class);
 
-            .when()
-                .post()
-
-            .then()
-                .spec(missingPasswordResponseSpec)
-                .extract().as(MissingPasswordModel.class));
-
-        step("Check response", ()->
-                assertEquals("Missing password", response.getError()));
+        assertEquals("Missing password", response.getError());
     }
 
     @Test
@@ -137,18 +106,14 @@ public class ReqresInTestsLombok extends TestBase {
         authData.setEmail("testqa@qatest");
         authData.setPassword("hardestpassworldintheworld");
 
-        MissingPasswordModel response = step("Make request", ()->
-            given(createRequestSpec)
+        MissingPasswordModel response = given(RequestSpecs.reqresRequestSpec)
                 .body(authData)
+                .when()
+                .post("/register")
+                .then()
+                .spec(ResponseSpecs.getResponseSpec(400))
+                .extract().as(MissingPasswordModel.class);
 
-            .when()
-                .post()
-
-            .then()
-                .spec(missingPasswordResponseSpec)
-                .extract().as(MissingPasswordModel.class));
-
-        step("Check response", ()->
-                assertEquals("Note: Only defined users succeed registration", response.getError()));
+        assertEquals("Note: Only defined users succeed registration", response.getError());
     }
 }
